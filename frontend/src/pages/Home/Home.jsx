@@ -38,7 +38,7 @@ const Home = () => {
                 icon={item.icon}
                 title={item.title}
                 description={item.description}
-            />
+                />
             ))}
         </div>
         <Footer />

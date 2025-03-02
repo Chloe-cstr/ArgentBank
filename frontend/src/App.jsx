@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from './pages/Home/Home'
+import Home from './pages/Home/Home';
+import Signin from "./pages/Signin/Signin";
 
 const router = createBrowserRouter(
   [
     { path: "/", element: <Home /> }, 
+    { path : "/signin", element: <Signin />}
   ],
   {
     future: {

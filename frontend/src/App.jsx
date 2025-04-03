@@ -3,11 +3,13 @@ import { Provider } from "react-redux"; // Importer Provider de react-redux
 import { store } from "./app/store"; // Importer le store Redux
 import Home from './pages/Home/Home';
 import Signin from "./pages/Signin/Signin";
+import User from "./pages/User/User";
 
 const router = createBrowserRouter(
   [
     { path: "/", element: <Home /> }, 
-    { path: "/signin", element: <Signin /> }
+    { path: "/signin", element: <Signin /> },
+    { path: "/user", element: <User />}
   ],
   {
     future: {

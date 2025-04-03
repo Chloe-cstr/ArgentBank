@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { loginUser } from "../../features/auth/authSlice"; // Importer l'action Redux
+import { loginUser } from "../../features/auth/authSlice"; 
+import { userProfile } from "../../features/profil/profilSlice";
 import { useNavigate } from "react-router-dom";
 import "./form.css";
 
@@ -10,23 +10,19 @@ const Form = () => {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error, token } = useSelector((state) => state.auth);
-
-    useEffect(() => {
-        if (token) {
-            navigate("/"); 
-        }
-    }, [token, navigate]);
-
-
+    const { loading, error } = useSelector((state) => state.auth);
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const result = await dispatch(loginUser({ email, password }));
-
+    
         if (result.meta.requestStatus === "fulfilled") {
-            navigate("/"); // Redirige si connexion réussie
+            const user = result.payload;
+            sessionStorage.setItem("token", user.token); 
+            dispatch(userProfile());
+            navigate("/user"); 
         }
-    };
+    };  
 
     return (
         <form onSubmit={handleSubmit}>

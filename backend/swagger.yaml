@@ -132,6 +132,7 @@ definitions:
       password:
         type: string
         description: user password
+  
   ApiResponse:
     type: object
     properties:

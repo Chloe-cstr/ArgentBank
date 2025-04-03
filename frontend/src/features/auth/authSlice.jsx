@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Thunk pour gérer la connexion
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
@@ -11,16 +10,13 @@ export const loginUser = createAsyncThunk(
         body: JSON.stringify({ email, password }),
       });
 
-      console.log("Réponse de l'API :", response.status);
-
       if (!response.ok) {
         const errorData = await response.json(); 
         throw new Error(errorData.message || "Échec de la connexion");
       }
 
       const data = await response.json();
-      localStorage.setItem('token', data.token); 
-      return data;
+      return { token: data.body.token };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -31,7 +27,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    token: localStorage.getItem('token') || null,
+    token: sessionStorage.getItem('token') || null,
     loading: false,
     error: null,
   },
@@ -39,7 +35,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
     },
   },
   extraReducers: (builder) => {
@@ -56,7 +52,7 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
   },
 });
 
